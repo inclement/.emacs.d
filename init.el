@@ -230,6 +230,11 @@
 
 (define-key global-map "\M-Q" 'unfill-paragraph)
 
+(recentf-mode 1)
+(setq recentf-max-menu-items 100)
+(setq recentf-max-saved-items 100)
+(run-at-time nil 60 'recentf-save-list)
+
 (load-user-file "python-for-android.el")
 
 (custom-set-variables
