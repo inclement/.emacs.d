@@ -1,0 +1,31 @@
+
+(defun unfill-paragraph ()
+  "Takes a multi-line paragraph and makes it into a single line of text."
+  (interactive)
+  (let ((fill-column (point-max)))
+    (fill-paragraph nil)))
+
+(setq macro-opens '("#if" "#ifdef" "#ifndef" "#elif" "else"))
+(setq macro-closes '("#endif" "#elif" "else"))
+(defun show-ifdefs ()
+  (interactive)
+  (setq buffer (buffer-substring-no-properties (point-min) (line-end-position)))
+  (setq lines (split-string buffer "\n"))
+  (let (output match-found trimmed-line the-string)
+    (dolist (line lines output)
+      (setq trimmed-line (string-trim line))
+      (setq match-found nil)
+      (dolist (close-string macro-closes)
+        (if (string-prefix-p close-string trimmed-line)
+            (setq match-found t)))
+      (if match-found
+          (pop output))
+      (setq match-found nil)
+      (dolist (the-string macro-opens)
+        (if (string-prefix-p the-string trimmed-line)
+            (setq match-found t)))
+      (if match-found
+          (push trimmed-line output)))
+    (if (> (length output) 0)
+        (message (mapconcat 'identity (reverse output) (propertize " AND " 'face 'font-lock-warning-face)))
+      (message (propertize "NO DEFS" 'face 'font-lock-warning-face)))))
