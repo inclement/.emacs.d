@@ -84,8 +84,8 @@
 ;; (use-package helm-gtags
 ;;   :demand
 ;;   :hook
-;;   (c-mode helm-gtags-mode)
-;;   (c++-mode helm-gtags-mode)
+;;   (c-mode . helm-gtags-mode)
+;;   (c++-mode . helm-gtags-mode)
 ;;   :init
 ;;   (setq helm-gtags-ignore-case t)
 ;;   (setq helm-gtags-auto-update t)
@@ -94,7 +94,7 @@
 (use-package evil
   :demand
   :hook
-  (with-editor-mode evil-insert-state)
+  (with-editor-mode . evil-insert-state)
   :bind (:map evil-normal-state-map
               ("m" . nil)
               ("mq" . show-ifdefs)
@@ -213,10 +213,10 @@
 (use-package eglot
   :demand
   :hook
-  (c-mode eglot-ensure)
-  (cc-mode eglot-ensure)
-  (c++-mode eglot-ensure)
-  (python-mode eglot-ensure)
+  (c-mode . eglot-ensure)
+  (cc-mode . eglot-ensure)
+  (c++-mode . eglot-ensure)
+  (python-mode . eglot-ensure)
   :init
   ;; Increasing these variables helps lsp-mode, perhaps eglot too?
   ;; todo: check this
