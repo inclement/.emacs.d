@@ -163,6 +163,20 @@
   (evil-ex-define-cmd "W" 'save-buffer)
   )
 
+(use-package magit)
+
+(use-package evil-magit
+  :demand
+  :config
+  (evil-define-key evil-magit-state magit-mode-map "n" 'magit-next-line)
+  (evil-define-key evil-magit-state magit-mode-map "e" 'magit-previous-line)
+  (evil-define-key evil-magit-state magit-mode-map (kbd "C-n") 'magit-section-forward)
+  (evil-define-key evil-magit-state magit-mode-map (kbd "C-e") 'magit-section-backward)
+  (evil-define-key evil-magit-state magit-mode-map "p" 'magit-section-backward)
+  (evil-define-key evil-magit-state magit-mode-map (kbd "C-p") 'magit-section-backward)
+  (evil-define-key evil-magit-state magit-mode-map "k" 'evil-search-next)
+  (evil-define-key evil-magit-state magit-mode-map "K" 'evil-search-previous))
+
 (use-package smart-mode-line
   :init
   (setq sml/no-confirm-load-theme t)
