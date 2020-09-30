@@ -168,6 +168,8 @@
 (use-package evil-magit
   :demand
   :config
+  (evil-define-key 'visual magit-mode-map "n" 'evil-next-visual-line)
+  (evil-define-key 'visual magit-mode-map "e" 'evil-previous-visual-line)
   (evil-define-key evil-magit-state magit-mode-map "n" 'magit-next-line)
   (evil-define-key evil-magit-state magit-mode-map "e" 'magit-previous-line)
   (evil-define-key evil-magit-state magit-mode-map (kbd "C-n") 'magit-section-forward)
