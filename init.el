@@ -163,8 +163,6 @@
   (evil-ex-define-cmd "W" 'save-buffer)
   )
 
-(use-package magit)
-
 (use-package evil-magit
   :demand
   :config
@@ -218,6 +216,8 @@
   (c++-mode . eglot-ensure)
   (python-mode . eglot-ensure)
   :init
+  (setq eglot-ignored-server-capabilites '(:documentHighlightProvider
+                                           :hoverProvider))
   ;; Increasing these variables helps lsp-mode, perhaps eglot too?
   ;; todo: check this
   (setq gc-cons-threshold 100000000)

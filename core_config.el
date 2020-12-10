@@ -9,11 +9,20 @@
 (show-paren-mode 1)
 (column-number-mode 1)
 
+(setq fill-column 90)
+
 ;; Smooth scrolling when moving cursor
 (setq scroll-margin 1
       scroll-conservatively 0
       scroll-up-aggressively 0.01
       scroll-down-aggressively 0.01)
+; Smooth scrolling when moving cursor
+(setq scroll-margin 1
+      scroll-conservatively 0
+      scroll-up-aggressively 0.01
+      scroll-down-aggressively 0.01)
+(setq-default scroll-up-aggressively 0.01
+              scroll-down-aggressively 0.01)
 
 ;; Enable narrow-to-region
 (put 'narrow-to-region 'disabled nil)
@@ -26,6 +35,7 @@
 (setq-default tab-width 4)
 (setq indent-line-function 'insert-tab)
 
+(setq c-default-style "linux")
 (setq c-basic-offset 4)
 
 ;; Do backups sensibly
