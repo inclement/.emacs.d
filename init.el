@@ -1,4 +1,7 @@
-(package-initialize)
+
+;; Uncomment to automatically download packages
+;; (require 'use-package-ensure)
+;; (setq use-package-always-ensure t)
 
 ;; Setup paths
 ;; (add-to-list 'load-path "~/.emacs.d/misc_lisp")
@@ -9,6 +12,8 @@
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/")
              'APPEND)
+
+(package-initialize)
 
 (defconst user-init-dir
   (cond ((boundp 'user-emacs-directory)
@@ -34,7 +39,9 @@
 (use-package glsl-mode
   :mode "\\.kv$")
 
-(use-package helm-mode
+(use-package helm-projectile)
+
+(use-package helm
   :demand
   :bind
   (("M-x" . helm-M-x)
@@ -73,7 +80,7 @@
   :config
   (global-undo-tree-mode))
 
-(require 'helm-gtags)
+(use-package helm-gtags)
 (setq helm-gtags-ignore-case t)
 (setq helm-gtags-auto-update t)
 (add-hook 'c-mode-hook (lambda () (message "c-mode hook ran")))
@@ -184,12 +191,9 @@
   :config
   (sml/setup))
 
-(use-package uniquify
-  :demand
-  :init
-  (setq
-   uniquify-buffer-name-style 'post-forward
-   uniquify-separator ":"))
+(require 'uniquify)
+(setq uniquify-buffer-name-style 'post-forward
+      uniquify-separator ":")
 
 (use-package org
   :bind
@@ -229,6 +233,7 @@
   (add-to-list 'eglot-server-programs '((cc-mode c-mode c++-mode) . ("clangd" "--all-scopes-completion" "--background-index")))
   )
 
+(use-package nyan-mode)
 (nyan-mode 1)
 
 (semantic-mode 1)
