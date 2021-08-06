@@ -30,11 +30,7 @@
 (load-user-file "helpers.el")
 (load-user-file "keyboard-layout-adjustments.el")
 
-(use-package kivy-mode
-  :mode "\\.kv$"
-  ;; :bind-keymap ("C-m" . newline-and-indent))
-  :bind (:map kivy-mode-map
-              ("C-m" . newline-and-indent)))
+(load-user-file "show-ifdefs.el")
 
 (use-package glsl-mode
   :mode "\\.kv$")
