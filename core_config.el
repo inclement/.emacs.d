@@ -9,7 +9,7 @@
 (show-paren-mode 1)
 (column-number-mode 1)
 
-(setq fill-column 90)
+(setq-default fill-column 90)
 
 ;; Smooth scrolling when moving cursor
 (setq scroll-margin 1
@@ -33,7 +33,8 @@
 ;; Do tabs right
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
-(setq indent-line-function 'insert-tab)
+;; (setq indent-line-function 'insert-tab)
+;; (setq indent-line-function nil)
 
 (setq c-default-style "linux")
 (setq c-basic-offset 4)
