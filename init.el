@@ -30,7 +30,7 @@
 (load-user-file "helpers.el")
 (load-user-file "keyboard-layout-adjustments.el")
 
-(load-user-file "show-ifdefs.el")
+;; (load-user-file "show-ifdefs.el")
 
 (use-package glsl-mode
   :mode "\\.kv$")
@@ -94,6 +94,9 @@
 ;;   (setq helm-gtags-auto-update t)
 ;;   )
 
+(add-to-list 'load-path "~/.emacs.d/lisp")
+(use-package preprocessor-collect)
+
 (use-package evil
   :demand
   :hook
@@ -101,6 +104,9 @@
   :bind (:map evil-normal-state-map
               ("m" . nil)
               ("mq" . show-ifdefs)
+              ("md" . nil)
+              ("mdp" . preprocessor-collect-toggle-overlay-ifdefs)
+              ("mdc" . preprocessor-collect-overlay-clear)
          :map evil-motion-state-map
               ; General
               ("mx" . helm-M-x)
@@ -114,6 +120,8 @@
               ("mo" . helm-swoop)
               ("mp" . projectile-command-map)
               ("m/" . swiper-helm)
+              ("me" . nil)
+              ("mee" . eval-region)
               ; Magit
               ("mg"  . nil)
               ("mgb" . magit-blame)
@@ -155,30 +163,52 @@
          )
   :init
   ;; (setq evil-want-C-i-jump nil)  ; Avoid consuming tab key in terminal
+  (setq evil-want-keybinding nil)
+  (setq evil-want-integration t)
   :config
   ;; TODO: try disabling these and reconfiguring with evil-magit
   (add-to-list 'evil-insert-state-modes 'git-commit)
-  (add-to-list 'evil-emacs-state-modes 'magit-popup-mode)
-  (add-to-list 'evil-emacs-state-modes 'magit-revision-mode)
-  (add-to-list 'evil-emacs-state-modes 'magit-mode)
+  ;; (add-to-list 'evil-emacs-state-modes 'magit-popup-mode)
+  ;; (add-to-list 'evil-emacs-state-modes 'magit-revision-mode)
+  ;; (add-to-list 'evil-emacs-state-modes 'magit-mode)
   (evil-mode 1)
   (to-colemak)
   (evil-ex-define-cmd "W" 'save-buffer)
   )
 
-(use-package evil-magit
-  :demand
+(use-package magit)
+
+(defun my-colemak-rotation (_mode mode-keymaps &rest _rest)
+  (message "my-colemak-rotation called for mode %s keymaps %s" _mode mode-keymaps)
+  (evil-collection-translate-key 'normal mode-keymaps
+                                 "n" "j"
+                                 "e" "k"
+                                 "i" "l"
+                                 "j" "e"
+                                 "k" "n"
+                                 "l" "i"))
+(add-hook 'evil-collection-setup-hook #'my-colemak-rotation)
+(use-package evil-collection
+  :after evil
+  :ensure t
   :config
-  (evil-define-key 'visual magit-mode-map "n" 'evil-next-visual-line)
-  (evil-define-key 'visual magit-mode-map "e" 'evil-previous-visual-line)
-  (evil-define-key evil-magit-state magit-mode-map "n" 'magit-next-line)
-  (evil-define-key evil-magit-state magit-mode-map "e" 'magit-previous-line)
-  (evil-define-key evil-magit-state magit-mode-map (kbd "C-n") 'magit-section-forward)
-  (evil-define-key evil-magit-state magit-mode-map (kbd "C-e") 'magit-section-backward)
-  (evil-define-key evil-magit-state magit-mode-map "p" 'magit-section-backward)
-  (evil-define-key evil-magit-state magit-mode-map (kbd "C-p") 'magit-section-backward)
-  (evil-define-key evil-magit-state magit-mode-map "k" 'evil-search-next)
-  (evil-define-key evil-magit-state magit-mode-map "K" 'evil-search-previous))
+  (evil-collection-init)
+  )
+
+
+;; (use-package evil-magit
+;;   :demand
+;;   :config
+;;   (evil-define-key 'visual magit-mode-map "n" 'evil-next-visual-line)
+;;   (evil-define-key 'visual magit-mode-map "e" 'evil-previous-visual-line)
+;;   (evil-define-key evil-magit-state magit-mode-map "n" 'magit-next-line)
+;;   (evil-define-key evil-magit-state magit-mode-map "e" 'magit-previous-line)
+;;   (evil-define-key evil-magit-state magit-mode-map (kbd "C-n") 'magit-section-forward)
+;;   (evil-define-key evil-magit-state magit-mode-map (kbd "C-e") 'magit-section-backward)
+;;   (evil-define-key evil-magit-state magit-mode-map "p" 'magit-section-backward)
+;;   (evil-define-key evil-magit-state magit-mode-map (kbd "C-p") 'magit-section-backward)
+;;   (evil-define-key evil-magit-state magit-mode-map "k" 'evil-search-next)
+;;   (evil-define-key evil-magit-state magit-mode-map "K" 'evil-search-previous))
 
 (use-package smart-mode-line
   :init
