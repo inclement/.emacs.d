@@ -270,6 +270,7 @@
 (setq uniquify-buffer-name-style 'post-forward
       uniquify-separator ":")
 
+
 (use-package org
   :bind
   ("M-n" . org-metadown)
@@ -332,6 +333,11 @@
 (run-at-time nil 60 'recentf-save-list)
 
 (load-user-file "python-for-android.el")
+
+(setq inferior-lisp-program "/usr/bin/sbcl")
+(add-to-list 'load-path "/usr/share/emacs/site-lisp/slime/")
+(require 'slime)
+(slime-setup)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
