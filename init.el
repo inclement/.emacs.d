@@ -32,6 +32,8 @@
 
 ;; (load-user-file "show-ifdefs.el")
 
+(use-package magit)
+
 (use-package glsl-mode
   :mode "\\.kv$")
 
@@ -176,17 +178,28 @@
   (evil-ex-define-cmd "W" 'save-buffer)
   )
 
-(use-package magit)
-
 (defun my-colemak-rotation (_mode mode-keymaps &rest _rest)
   (message "my-colemak-rotation called for mode %s keymaps %s" _mode mode-keymaps)
   (evil-collection-translate-key 'normal mode-keymaps
                                  "n" "j"
                                  "e" "k"
-                                 "i" "l"
-                                 "j" "e"
-                                 "k" "n"
-                                 "l" "i"))
+                                 ;; "i" "l"
+                                 ;; "j" "e"
+                                 ;; "k" "n"
+                                 ;; "l" "i"
+                                 :destructive t
+                                 )
+
+  (evil-collection-translate-minor-mode-key 'normal mode-keymaps
+                                 "n" "j"
+                                 "e" "k"
+                                 ;; "i" "l"
+                                 ;; "j" "e"
+                                 ;; "k" "n"
+                                 ;; "l" "i"
+                                 :destructive t
+                                 )
+  )
 (add-hook 'evil-collection-setup-hook #'my-colemak-rotation)
 (use-package evil-collection
   :after evil
@@ -195,6 +208,15 @@
   (evil-collection-init)
   )
 
+  (evil-collection-translate-key 'normal evil-collection-magit-maps
+                                 ;; "n" "j"
+                                 ;; "e" "k"
+                                 ;; "i" "l"
+                                 "j" "e"
+                                 "k" "n"
+                                 ;; "l" "i"
+                                 :destructive t
+                                 )
 
 ;; (use-package evil-magit
 ;;   :demand
@@ -209,6 +231,33 @@
 ;;   (evil-define-key evil-magit-state magit-mode-map (kbd "C-p") 'magit-section-backward)
 ;;   (evil-define-key evil-magit-state magit-mode-map "k" 'evil-search-next)
 ;;   (evil-define-key evil-magit-state magit-mode-map "K" 'evil-search-previous))
+
+;; (evil-define-key 'insert
+;;   'smile-repl-mode-map
+;;   ;; smile-mode-map
+;;   ;; 'Smile-Repl-Map
+;;   (kbd "C-p") 'slime-repl-previous-input
+;;   (kbd "C-n") 'slime-repl-next-input)
+
+(evil-collection-define-key 'insert 'slime-repl-mode-map
+  (kbd "C-p") 'slime-repl-previous-input
+  (kbd "C-n") 'slime-repl-next-input
+  (kbd "C-f") 'forward-char
+  (kbd "C-b") 'evil-backward-char
+  (kbd "C-a") 'move-beginning-of-line
+  (kbd "C-e") 'move-end-of-line
+  (kbd "C-d") 'evil-delete-char
+  (kbd "C-k") 'evil-delete-line
+  (kbd "C-u") 'evil-delete-back-to-indentation)
+(evil-collection-define-key 'normal 'slime-repl-mode-map
+  (kbd "C-f") 'forward-char
+  (kbd "C-b") 'evil-backward-char
+  (kbd "C-a") 'move-beginning-of-line
+  (kbd "C-e") 'move-end-of-line
+  (kbd "C-d") 'evil-delete-char
+  (kbd "C-k") 'evil-delete-line
+  (kbd "C-u") 'evil-delete-back-to-indentation)
+
 
 (use-package smart-mode-line
   :init
